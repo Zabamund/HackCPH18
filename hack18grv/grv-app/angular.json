@@ -3,17 +3,17 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "hack18grv": {
+    "grv-app": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
-      "prefix": "app",
+      "prefix": "grv",
       "schematics": {},
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/hack18grv",
+            "outputPath": "dist/grv-app",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -50,18 +50,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "hack18grv:build"
+            "browserTarget": "grv-app:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "hack18grv:build:production"
+              "browserTarget": "grv-app:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "hack18grv:build"
+            "browserTarget": "grv-app:build"
           }
         },
         "test": {
@@ -95,7 +95,7 @@
         }
       }
     },
-    "hack18grv-e2e": {
+    "grv-app-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -103,11 +103,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "hack18grv:serve"
+            "devServerTarget": "grv-app:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "hack18grv:serve:production"
+              "devServerTarget": "grv-app:serve:production"
             }
           }
         },
@@ -123,5 +123,5 @@
       }
     }
   },
-  "defaultProject": "hack18grv"
+  "defaultProject": "grv-app"
 }
