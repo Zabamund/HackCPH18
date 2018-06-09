@@ -18,6 +18,7 @@ import { PlotAComponent } from './plot-a/plot-a.component';
 import { PlotBComponent } from './plot-b/plot-b.component';
 import { ContentComponent } from './content/content.component';
 
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { ContentComponent } from './content/content.component';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     FormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
