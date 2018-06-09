@@ -38,22 +38,31 @@ class Fortuna(object):
         """
 
         self.size_raster = (250,162)
+        self.base_cube = None
+        self.top_cube = None
+        self.base_n = None
+        self.top_n = None
+        self.vol = None
 
-        self.base_cube, self.base_n = folder2cube('data/Hackaton/BaseSet/MapSimu__*.data', size_raster)
-        self.top_cube, self.top_n = folder2cube('data/Hackaton/TopSet/MapSimu__*.data', size_raster)
 
-        self.vol = pd.read_csv('data/Hackaton/VolumeDistribution/Volumes', delim_whitespace=True)
+        self.import_data()
 
 
-    def folder2cube(files, size_raster):
+
+    def folder2cube(self, files):
         """
-        Function to import data from files.
+        Method to import data from a file.
         """
         base_set = glob.glob(files)
-        cube = np.zeros(size_raster + (len(base_set),))
+        cube = np.zeros(self.size_raster + (len(base_set),))
         for i, model in enumerate(base_set):
-            cube[:, :, i] = np.loadtxt(model, skiprows=1).reshape(size_raster)
+            cube[:, :, i] = np.loadtxt(model, skiprows=1).reshape(self.size_raster)
         return cube, len(base_set)
 
 
+    def import_data(self):
+        self.base_cube, self.base_n = self.folder2cube('data/Hackaton/BaseSet/MapSimu__*.data')
+        self.top_cube, self.top_n = self.folder2cube('data/Hackaton/TopSet/MapSimu__*.data')
+
+        self.vol = pd.read_csv('data/Hackaton/VolumeDistribution/Volumes', delim_whitespace=True)
 
