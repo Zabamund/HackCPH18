@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,17 @@ export class HttpServiceService {
   // one call per backend end rest call
   // one backend rest call per function
   exampleAPICall() {
-    this.httpClient.get('http://127.0.0.1:5002/API').subscribe(data => {
+    // Initialize Params Object
+    let Params = new HttpParams();
+
+    // Begin assigning parameters
+    Params = Params.append('arg1', 'John Doe');
+    Params = Params.append('arg2', 'Jane Doe');
+
+    // Make the API call using the new parameters.
+    this.httpClient.get('http://127.0.0.1:5002/API', {
+      params: Params
+    }).subscribe(data => {
       this.serverData = data as JSON;
       console.log(this.serverData)
     })
