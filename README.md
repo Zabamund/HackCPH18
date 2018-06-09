@@ -6,7 +6,7 @@
 
 - [Natalia Shchukina](http://bit.ly/2sWJTIe)
 - [Graham Brew](http://bit.ly/2sNgUX4)
-- [Mario van Veen](http://bit.ly/2sTaO7r)
+- [Marco van Veen](http://bit.ly/2sTaO7r)
 - [Behrooz Bashokooh](http://bit.ly/2sTUByX)
 - [Tobias Stål](http://bit.ly/2sSdL8l)
 - [Robert Leckenby](http://bit.ly/2xVGFdp)
