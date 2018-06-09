@@ -5,4 +5,16 @@
       <mat-card-subtitle>Realisation number</mat-card-subtitle>
     </mat-card-header>
     <img mat-card-image src="/assets/expertise_metiers_explo_be_02_interpretations_i1-slider960x470.png" alt="Main view">
+    <mat-slider
+        class="example-margin"
+        [disabled]="disabled"
+        [invert]="invert"
+        [max]="max"
+        [min]="min"
+        [step]="step"
+        [thumbLabel]="thumbLabel"
+        [tickInterval]="tickInterval"
+        [(ngModel)]="value"
+        [vertical]="vertical">
+    </mat-slider>
   </mat-card>
