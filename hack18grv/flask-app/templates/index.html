@@ -29,17 +29,16 @@
         <div class="col">
           <img src="/static/image2.png" class="img-fluid" alt="Main view">
           <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="199" data-slider-step="1" data-slider-value="0"/>
-          
         </div>
         <div class="col">
-          <img src="/static/image1.png" class="img-fluid" alt="Main view">
+            <div id="GRVQHC"></div>
         </div>
         <div class="w-100"></div>
         <div class="col">
-          <img src="/static/image3.jpg" class="img-fluid" alt="Main view">
+            <div id="GRVOWC"></div>            
         </div>
         <div class="col">
-          <img src="/static/image4.png" class="img-fluid" alt="Main view">
+            <div id="GRVDNS"></div>  
         </div>
       </div>
     </div>
@@ -61,6 +60,9 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega@4.0.0-rc.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@2.5.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@3.14.0"></script>
     <script>
         // Without JQuery
         var slider = new Slider('#ex1', {
@@ -70,5 +72,17 @@
           }
         });
       </script>
+      <script type="text/javascript">
+        var yourVlSpec = {{ GRVQHC|safe }};
+        vegaEmbed("#GRVQHC", yourVlSpec);
+      </script>
+      <script type="text/javascript">
+        var yourVlSpec = {{ GRVOWC|safe }};
+        vegaEmbed("#GRVOWC", yourVlSpec);
+      </script>
+      <script type="text/javascript">
+        var yourVlSpec = {{ GRVDNS|safe }};
+        vegaEmbed("#GRVDNS", yourVlSpec);
+      </script>
   </body>
-</html>
+</html> 
