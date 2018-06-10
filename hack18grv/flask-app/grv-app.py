@@ -24,7 +24,7 @@ def jinja_template():
 def home():
     dictionary = {'company': 'Agile', 'country': 'Canada'}
     image_location = 'http://bit.ly/2mY5YUz'
-    return render_template('jinja_template.html', logo=image_location, content=dictionary)
+    return render_template('index.html', logo=image_location, content=dictionary)
 
 # run
 if __name__ == '__main__':
