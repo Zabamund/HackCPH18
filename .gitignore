@@ -135,3 +135,5 @@ yarn-error.log
 
 # rollup-test output
 /modules/rollup-test/dist/
+
+*.npy
