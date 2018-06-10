@@ -26,11 +26,9 @@ class Fortuna(object):
 
     Args:
         There are no required arguments at the moment. Input files could be defined.
-
-    Keyword Args:
-        scalar_field(numpy.ndarray): 3D array containing a individual potential field
-        verbose(int): Level of verbosity during the execution of the functions (up to 5). Default 0
     """
+
+
 
     def __init__(self, **kwargs):
         """
@@ -45,6 +43,40 @@ class Fortuna(object):
         self.vol = None
 
 
+
+
+
+        ds = xr.Dataset()
+
+        self.X_corner = 390885
+        self.Y_corner = 7156947
+        self.dx, self.dy self.dz= 25, 25, 100
+        self.top_model = 950
+        self.bottom_model = 1050
+
+        xx = np.linspace(X_corner, X_corner + size_raster[0] * dx, size_raster[0])
+        yy = np.linspace(Y_corner, Y_corner + size_raster[1] * dy, size_raster[1])
+        zz = np.linspace(top_model, bottom_model, dz)
+
+        model = np.linspace(0, top_model, base_n)
+
+        ds.coords['X'] = xx
+        ds.coords['Y'] = yy
+        ds.coords['Z'] = zz
+        ds.coords['MODEL'] = model
+
+        ds['BASE'] = (('X', 'Y', 'MODEL'), base_cube)
+        ds['TOP'] = (('X', 'Y', 'MODEL'), top_cube)
+
+
+
+
+
+
+
+
+
+        # Initial methods to load
         self.import_data()
 
 
@@ -68,3 +100,36 @@ class Fortuna(object):
 
         self.vol = pd.read_csv('data/Hackaton/VolumeDistribution/Volumes', delim_whitespace=True)
 
+
+    def load_pickle(self, path):
+        return np.load(path)
+
+    def plot_entropy(self, cube, slice=10):
+        plt.imshow(cube[slice, :, :].T, origin='upperleft', cmap='viridis')
+        plt.show()
+
+
+    def calc_lithology(self, iterations = 2):
+        """
+        Sample from both distributions and fill each z-stack accordingly
+        """
+        # create empty array
+        cube = np.zeros((iter, self.size_raster[0], self.size_raster[1], zz.size), dtype='int8')"
+
+        for i in range(iter):
+            for j in range(size_raster[0]):  # size_raster[0]
+                for k in range(size_raster[1]):
+
+                    # sample from top and base distributions for specific x,y position
+                    top = np.random.normal(top_mean[j, k], top_std[j, k])
+                    base = np.random.normal(base_mean[j, k], base_std[j, k])
+
+                    # iterate over vertical z-stack
+                    for l in range(zz.size):
+
+                        if zz[l] <= top:
+                            lith_block[i, j, k, l] = 1
+                        elif zz[l] > base:
+                            lith_block[i, j, k, l] = 3
+                        elif ((zz[l] > top) and (l <= base)):
+                            lith_block[i, j, k, l] = 2
