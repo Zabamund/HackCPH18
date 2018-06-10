@@ -48,10 +48,9 @@ class Fortuna(object):
         self.import_data()
 
 
-
     def folder2cube(self, files):
         """
-        Method to import data from a file.
+        Method to read a file.
         """
         base_set = glob.glob(files)
         cube = np.zeros(self.size_raster + (len(base_set),))
@@ -61,6 +60,9 @@ class Fortuna(object):
 
 
     def import_data(self):
+        """
+        Method to load different data objects from files.
+        """
         self.base_cube, self.base_n = self.folder2cube('data/Hackaton/BaseSet/MapSimu__*.data')
         self.top_cube, self.top_n = self.folder2cube('data/Hackaton/TopSet/MapSimu__*.data')
 
