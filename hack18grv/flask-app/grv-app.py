@@ -1,18 +1,11 @@
 # imports
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import numpy as np
 import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 
 #routes
-@app.route('/hello')
-def hello_world():
-    return 'Hello World!'
-
-@app.route('/minimal')
-def minimal():
-    return render_template('bootstrap-mini.html')
 
 @app.route('/jinja_template')
 def jinja_template():
@@ -25,6 +18,14 @@ def home():
     dictionary = {'company': 'Agile', 'country': 'Canada'}
     image_location = 'http://bit.ly/2mY5YUz'
     return render_template('index.html', logo=image_location, content=dictionary)
+
+@app.route('/slider', methods = ['GET'])
+def slider():
+    if request.method == 'GET':
+        slider_value = request.args.get('arg1')
+        print('slider_value', slider_value)
+        return slider_value
+
 
 # run
 if __name__ == '__main__':
