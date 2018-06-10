@@ -8,17 +8,19 @@ export class HttpServiceService {
   serverData: JSON;
   employeeData: JSON;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(public httpClient: HttpClient) { }
 
   // one call per backend end rest call
   // one backend rest call per function
-  exampleAPICall() {
+  exampleAPICall(arg1:string, arg2:string) {
     // Initialize Params Object
     let Params = new HttpParams();
 
     // Begin assigning parameters
-    Params = Params.append('arg1', 'John Doe');
-    Params = Params.append('arg2', 'Jane Doe');
+    //Params = Params.append('arg1', 'John Doe');
+    //Params = Params.append('arg2', 'Jane Doe');
+    Params = Params.append('arg1', arg1);
+    Params = Params.append('arg2', arg2);
 
     // Make the API call using the new parameters.
     this.httpClient.get('http://127.0.0.1:5002/API', {
@@ -26,6 +28,7 @@ export class HttpServiceService {
     }).subscribe(data => {
       this.serverData = data as JSON;
       console.log(this.serverData)
+      return this.serverData
     })
   }
 
