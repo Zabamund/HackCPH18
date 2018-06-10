@@ -4,19 +4,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import altair as alt
+import sys, os
+
+# use specified path
+sys.path.append("../../")
+import fortuna.fortuna as ft
 
 app = Flask(__name__)
 
 #routes
 
-@app.route('/jinja_template')
-def jinja_template():
-    dictionary = {'company': 'Agile', 'country': 'Canada'}
-    image_location = 'http://bit.ly/2mY5YUz'
-    return render_template('jinja_template.html', logo=image_location, content=dictionary)
-
 @app.route('/')
 def home():
+
+    ### BEHROOZ
     # read volume file and assign to vol data frame
     volume_file = ('static/Volumes')
     vol = pd.read_csv(volume_file, delim_whitespace=True)
@@ -96,6 +97,9 @@ def home():
     GRVDNS = GRVDNS.to_json()
 
     return render_template('index.html', GRVQHC = GRVQHC, GRVOWC = GRVOWC, GRVDNS = GRVDNS)
+
+    ### MARCO
+
 
 @app.route('/slider', methods = ['GET'])
 def slider():
