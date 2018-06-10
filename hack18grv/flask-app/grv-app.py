@@ -4,11 +4,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import altair as alt
-import sys, os
-
-# use specified path
-sys.path.append("../../")
-import fortuna.fortuna as ft
 
 app = Flask(__name__)
 
@@ -96,9 +91,9 @@ def home():
     GRVDNS=alt.layer(bars, line1, line2,line3, data=vol)
     GRVDNS = GRVDNS.to_json()
 
+
     return render_template('index.html', GRVQHC = GRVQHC, GRVOWC = GRVOWC, GRVDNS = GRVDNS)
 
-    ### MARCO
 
 
 @app.route('/slider', methods = ['GET'])
