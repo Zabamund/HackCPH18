@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpServiceService } from '../shared';
+import { stringify } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'grv-plot-a',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PlotAComponent implements OnInit {
 
-  constructor() { }
+  arg1 = 'John';
+  arg2 = 'Doe';
+  output = '';
+
+  constructor(
+    private httpService: HttpServiceService
+  ) { }
 
   ngOnInit() {
+  }
+
+  displayData() {
+    this.httpService.exampleAPICall(this.arg1, this.arg2)
+    this.output = JSON.stringify(this.httpService.serverData)
   }
 
 }
