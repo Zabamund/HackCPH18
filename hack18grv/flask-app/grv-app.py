@@ -136,6 +136,15 @@ def altair():
 def entropy():
     # Read in the pickles 
     entropy = np.load('../../pickles/entropy_20180610.npy')
+    all_surfaces = np.load('../../interative_sliders_flask/data/realisation_1_10.npy')
+    
+    # Pick one scenario
+    nb = 3
+    scenario = all_surfaces[:,:,:,nb]
+
+    # Inject the surfaces into the mid_unit
+    combined = entropy
+    entropy[scenario==1] = np.nan
     
     # Make the Holoviews DataSpaces
     ds1 = hv.Dataset((np.arange(0,100,1), np.linspace(0., 162., 162), np.linspace(0., 250., 250),
@@ -146,12 +155,12 @@ def entropy():
     renderer = hv.renderer('bokeh')
 
     # Plot
-    entropy1 = ds1.to(hv.Image, ['x', 'depth']).redim(z=dict(range=(0,1))).options(height=400, width=700, colorbar=True, invert_yaxis=True, cmap='viridis')
+    entropy1 = ds1.to(hv.Image, ['x', 'depth']).redim(z=dict(range=(0,1.6))).options(height=400, width=700, colorbar=True, invert_yaxis=True, cmap='viridis')
     
     entropy1plot = renderer.html(entropy1)
     
     
-    entropy2 = ds1.to(hv.Image, ['x', 'y']).redim(z=dict(range=(0,1))).options(height=400, width=700, colorbar=True, invert_yaxis=True, cmap='viridis')
+    entropy2 = ds1.to(hv.Image, ['x', 'y']).redim(z=dict(range=(0,1.6))).options(height=400, width=700, colorbar=True, invert_yaxis=True, cmap='viridis')
     
     entropy2plot = renderer.html(entropy2)
 
