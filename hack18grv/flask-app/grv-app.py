@@ -132,6 +132,31 @@ def altair():
 
     return render_template('altair.html', html1 = html1, html2 = html2)
 
+@app.route('/entropy')
+def entropy():
+    # Read in the pickles 
+    entropy = np.load('../../pickles/entropy_20180610.npy')
+    
+    # Make the Holoviews DataSpaces
+    ds1 = hv.Dataset((np.arange(0,100,1), np.linspace(0., 162., 162), np.linspace(0., 250., 250),
+                entropy),
+                kdims=['depth', 'y', 'x'],
+                vdims=['z'])
+       
+    renderer = hv.renderer('bokeh')
+
+    # Plot
+    entropy1 = ds1.to(hv.Image, ['x', 'depth']).redim(z=dict(range=(0,1))).options(height=400, width=700, colorbar=True, invert_yaxis=True, cmap='viridis')
+    
+    entropy1plot = renderer.html(entropy1)
+    
+    
+    entropy2 = ds1.to(hv.Image, ['x', 'y']).redim(z=dict(range=(0,1))).options(height=400, width=700, colorbar=True, invert_yaxis=True, cmap='viridis')
+    
+    entropy2plot = renderer.html(entropy2)
+
+    return render_template('entropy.html', entropy1plot = entropy1plot, entropy2plot = entropy2plot)
+
 @app.route('/slider', methods = ['GET'])
 def slider():
     if request.method == 'GET':
