@@ -101,8 +101,8 @@ def home():
 def altair():
     ### GRAHAM
     # Read in the pickles 
-    mid_unit = np.load('../../interative_sliders_flask/data/mid_unit.npy')
-    all_surfaces = np.load('../../interative_sliders_flask/data/realisation_1_10.npy')
+    mid_unit = np.load('static/mid_unit.npy')
+    all_surfaces = np.load('static/realisation_1_10.npy')
     
     # Pick one scenario
     nb = 3
@@ -135,8 +135,8 @@ def altair():
 @app.route('/entropy')
 def entropy():
     # Read in the pickles 
-    entropy = np.load('../../pickles/entropy_20180610.npy')
-    all_surfaces = np.load('../../interative_sliders_flask/data/realisation_1_10.npy')
+    entropy = np.load('static/entropy_20180610.npy')
+    all_surfaces = np.load('static/realisation_1_10.npy')
     
     # Pick one scenario
     nb = 3
