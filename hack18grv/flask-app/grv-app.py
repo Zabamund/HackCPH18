@@ -8,7 +8,6 @@ from bokeh.embed import components
 import holoviews as hv
 
 app = Flask(__name__)
-
 #routes
 
 @app.route('/')
@@ -175,4 +174,6 @@ def slider():
 
 # run
 if __name__ == '__main__':
-    app.run(port=5002, debug=True)
+    #app.run(port=5002, debug=True)
+    # Testing new app.run()
+    app.run(host="0.0.0.0", port=8000, debug=False)
