@@ -1,7 +1,7 @@
 """
 Fortuna
 
-Python project to visualize uncertatinty.
+Python project to visualize uncertatinty in probabilistic exploration models.
 
 Created on 09/06/2018
 
@@ -57,12 +57,10 @@ class Fortuna(object):
         self.yy = None
         self.zz = None
         self.model = None
-
         self.base_mean = None
-        self.base_std = None # ds['BASE'].std(dim='MODEL')
-
-        self.top_mean = None #ds['TOP'].mean(dim='MODEL')
-        self.top_std = None # ds['TOP'].std(dim='MODEL')
+        self.base_std = None
+        self.top_mean = None
+        self.top_std = None
 
 
         ## Initial methods to load
@@ -127,16 +125,16 @@ class Fortuna(object):
         return np.load(path)
 
 
-    ## Methods tocompute different uncertatinty cubes --> cubes to be displayed in the frontend
+    ## Methods to compute different uncertatinty cubes --> cubes to be displayed in the frontend
 
     def calc_lithology(self, iterations = 2):
         """
         Sample from both distributions and fill each z-stack accordingly
         """
         # create empty array
-        cube = np.zeros((iter, self.size_raster[0], self.size_raster[1], zz.size), dtype='int8')
+        block = np.zeros((iterations, self.size_raster[0], self.size_raster[1], self.zz.size), dtype='int8')
 
-        for i in range(iter):
+        for i in range(iterations):
             for j in range(self.size_raster[0]):  # size_raster[0]
                 for k in range(self.size_raster[1]):
 
@@ -145,21 +143,55 @@ class Fortuna(object):
                     base = np.random.normal(self.base_mean[j, k], self.base_std[j, k])
 
                     # iterate over vertical z-stack
-                    for l in range(zz.size):
+                    for l in range(self.zz.size):
 
-                        if zz[l] <= top:
-                            cube[i, j, k, l] = 1
-                        elif zz[l] > base:
-                            cube[i, j, k, l] = 3
-                        elif ((zz[l] > top) and (l <= base)):
-                            cube[i, j, k, l] = 2
+                        if self.zz[l] <= top:
+                            block[i, j, k, l] = 1
+                        elif self.zz[l] > base:
+                            block[i, j, k, l] = 3
+                        elif ((self.zz[l] > top) and (l <= base)):
+                            block[i, j, k, l] = 2
 
-        return cube
+        return block
 
 
-    ### Modifyed from GemPy!!!
-    def calculate_probability_lithology(self, lith_blocks):
+    def calc_lithology_vect(self, iterations=2):
+        """
+        Resample from z value statistics and fill each z-stack in a lithology block accordingly.
+        This is the new method with vectorized operations to speed up calculations.
+        """
+
+        # create empty array
+        block = np.zeros((iterations, self.xx.size, self.yy.size, self.zz.size), dtype='int8')
+
+        for i in range(iterations):
+
+            # create meshgrids grid for coordinate-wise iterations
+            mesh_x, mesh_y, mesh_z = np.meshgrid(np.arange(self.xx.size),
+                                                 np.arange(self.yy.size),
+                                                 np.arange(self.zz.size))
+
+            # sample from top and base distributions for specific x,y position
+            top = np.zeros([self.xx.size, self.yy.size])
+            base = np.zeros([self.xx.size, self.yy.size])
+
+            top[mesh_x, mesh_y] = np.random.normal(self.top_mean.values[mesh_x, mesh_y],
+                                                   self.top_std.values[mesh_x, mesh_y])
+            base[mesh_x, mesh_y] = np.random.normal(self.top_mean.values[mesh_x, mesh_y],
+                                                    self.top_std.values[mesh_x, mesh_y])
+
+            # compare each cell to resampled reference values
+            # TODO generalize for any number of lithologies
+            block[i, mesh_x, mesh_y, mesh_z] = np.where(self.zz < top[mesh_x, mesh_y], 1,
+                                                        np.where(self.zz < base[mesh_x, mesh_y], 2, 3))
+
+        return block
+
+
+    ### Modifyed from GemPy!
+    def calc_probability_lithology(self, cube):
         """Blocks must be just the lith blocks!"""
+        lith_blocks = cube.reshape([cube.shape[0], (self.xx.size * self.yy.size * self.zz.size)])
         lith_id = np.unique(lith_blocks)
         # lith_count = np.zeros_like(lith_blocks[0:len(lith_id)])
         lith_count = np.zeros((len(np.unique(lith_blocks)), lith_blocks.shape[1]))
@@ -169,16 +201,15 @@ class Fortuna(object):
         return lith_prob
 
 
-    ### Modyfied from GemPy!!!
-    def calculate_information_entropy(self, lith_prob):
+    ### Modyfied from GemPy!
+    def calc_information_entropy(self, lith_prob):
         """Calculates information entropy for the given probability array."""
         cube = np.zeros_like(lith_prob[0])
         for l in lith_prob:
             pm = np.ma.masked_equal(l, 0)  # mask where layer prob is 0
             cube -= (pm * np.ma.log2(pm)).filled(0)
-        return cube
-
-
+        return cube.reshape([self.xx.size, self.yy.size, self.zz.size])
+        # Try numpy.flatten and numpy.ravel
 
     ## Simple plotting methods
 
